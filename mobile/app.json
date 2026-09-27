@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Doceria do Sr. Gilmar - Atendente",
+    "slug": "doceria-sr-gilmar-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#881337"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.doceriadosrgilmar.atendente"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#881337"
+      },
+      "package": "com.doceriadosrgilmar.atendente"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "appwriteEndpoint": "http://localhost/v1",
+      "appwriteProjectId": "doceria-sr-gilmar",
+      "databaseId": "doceria_main_db"
+    }
+  }
+}

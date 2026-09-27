@@ -1,0 +1,11 @@
+{
+  "name": "function-solicitar-conta",
+  "version": "1.0.0",
+  "description": "Appwrite Function para solicitar fechamento de conta com cálculo de descontos e validação de itens",
+  "main": "src/main.ts",
+  "type": "module",
+  "dependencies": {
+    "node-appwrite": "^14.1.0",
+    "zod": "^3.24.2"
+  }
+}

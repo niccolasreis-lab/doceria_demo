@@ -1,0 +1,739 @@
+{
+  "$schema": "https://appwrite.io/schemas/1.5.0/collections.json",
+  "databaseId": "doceria_main_db",
+  "databaseName": "Doceria do Sr. Gilmar Database",
+  "collections": [
+    {
+      "$id": "profiles",
+      "name": "Perfis de Usuários",
+      "enabled": true,
+      "documentSecurity": true,
+      "$permissions": [
+        "read(\"users\")",
+        "read(\"team:staff\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 100
+        },
+        {
+          "key": "email",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 120
+        },
+        {
+          "key": "role",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 20,
+          "elements": ["admin", "caixa", "atendente"]
+        },
+        {
+          "key": "ativo",
+          "type": "boolean",
+          "status": "available",
+          "required": true,
+          "default": true
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_profile_role",
+          "type": "key",
+          "status": "available",
+          "attributes": ["role"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_profile_email",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["email"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "produtos",
+      "name": "Produtos",
+      "enabled": true,
+      "documentSecurity": false,
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:staff\")",
+        "update(\"team:staff\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 150
+        },
+        {
+          "key": "descricao",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 1000,
+          "default": ""
+        },
+        {
+          "key": "preco_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 10000000
+        },
+        {
+          "key": "categoria",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 30,
+          "elements": ["Bolos", "Doces Finos", "Bebidas", "Salgados", "Cafeteria"]
+        },
+        {
+          "key": "disponivel",
+          "type": "boolean",
+          "status": "available",
+          "required": true,
+          "default": true
+        },
+        {
+          "key": "imagem_url",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 500,
+          "default": ""
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_produto_categoria",
+          "type": "key",
+          "status": "available",
+          "attributes": ["categoria"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_produto_disponivel",
+          "type": "key",
+          "status": "available",
+          "attributes": ["disponivel"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "mesas",
+      "name": "Mesas",
+      "enabled": true,
+      "documentSecurity": false,
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:staff\")",
+        "update(\"team:staff\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "numero",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "capacidade",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 1,
+          "max": 50,
+          "default": 4
+        },
+        {
+          "key": "status",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 20,
+          "default": "livre",
+          "elements": ["livre", "ocupada", "pedindo_conta"]
+        },
+        {
+          "key": "comanda_ativa_id",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 64
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_mesa_numero",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["numero"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_mesa_status",
+          "type": "key",
+          "status": "available",
+          "attributes": ["status"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "comandas",
+      "name": "Comandas",
+      "enabled": true,
+      "documentSecurity": true,
+      "$permissions": [
+        "read(\"users\")",
+        "read(\"team:staff\")",
+        "create(\"team:staff\")",
+        "update(\"team:staff\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "codigo",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        },
+        {
+          "key": "mesa_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "mesa_numero",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "atendente_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "atendente_nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 100
+        },
+        {
+          "key": "status",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 30,
+          "default": "aberta",
+          "elements": ["aberta", "pedindo_conta", "paga", "cancelada"]
+        },
+        {
+          "key": "subtotal_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000,
+          "default": 0
+        },
+        {
+          "key": "desconto_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000,
+          "default": 0
+        },
+        {
+          "key": "total_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000,
+          "default": 0
+        },
+        {
+          "key": "observacoes",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 1000,
+          "default": ""
+        },
+        {
+          "key": "aberta_em",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        },
+        {
+          "key": "fechada_em",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 50
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_comanda_codigo",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["codigo"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_comanda_status",
+          "type": "key",
+          "status": "available",
+          "attributes": ["status"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_comanda_mesa_id",
+          "type": "key",
+          "status": "available",
+          "attributes": ["mesa_id"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_comanda_aberta_em",
+          "type": "key",
+          "status": "available",
+          "attributes": ["aberta_em"],
+          "orders": ["DESC"]
+        }
+      ]
+    },
+    {
+      "$id": "itens_comanda",
+      "name": "Itens da Comanda",
+      "enabled": true,
+      "documentSecurity": true,
+      "$permissions": [
+        "read(\"users\")",
+        "read(\"team:staff\")",
+        "create(\"team:staff\")",
+        "update(\"team:staff\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "comanda_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "produto_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "produto_nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 150
+        },
+        {
+          "key": "quantidade",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "key": "preco_unitario_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 10000000
+        },
+        {
+          "key": "subtotal_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000
+        },
+        {
+          "key": "observacao",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 255,
+          "default": ""
+        },
+        {
+          "key": "lancado_por_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "lancado_por_nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 100
+        },
+        {
+          "key": "criado_em",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_item_comanda_id",
+          "type": "key",
+          "status": "available",
+          "attributes": ["comanda_id"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_item_produto_id",
+          "type": "key",
+          "status": "available",
+          "attributes": ["produto_id"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "pagamentos",
+      "name": "Pagamentos",
+      "enabled": true,
+      "documentSecurity": true,
+      "$permissions": [
+        "read(\"users\")",
+        "read(\"team:staff\")",
+        "create(\"team:staff\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "comanda_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "caixa_id",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64
+        },
+        {
+          "key": "caixa_nome",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 100
+        },
+        {
+          "key": "forma_pagamento",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 30,
+          "elements": ["dinheiro", "pix", "cartao_debito", "cartao_credito", "vale_refeicao"]
+        },
+        {
+          "key": "valor_pago_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000
+        },
+        {
+          "key": "troco_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 50000000,
+          "default": 0
+        },
+        {
+          "key": "criado_em",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_pagamento_comanda",
+          "type": "key",
+          "status": "available",
+          "attributes": ["comanda_id"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_pagamento_forma",
+          "type": "key",
+          "status": "available",
+          "attributes": ["forma_pagamento"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "fechamentos_caixa",
+      "name": "Fechamentos de Caixa",
+      "enabled": true,
+      "documentSecurity": false,
+      "$permissions": [
+        "read(\"team:admin\")",
+        "read(\"team:caixa\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "data_referencia",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 20
+        },
+        {
+          "key": "total_vendas_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "total_dinheiro_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "total_pix_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "total_cartao_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "total_outros_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "total_descontos_centavos",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 1000000000,
+          "default": 0
+        },
+        {
+          "key": "quantidade_comandas",
+          "type": "integer",
+          "status": "available",
+          "required": true,
+          "min": 0,
+          "max": 100000,
+          "default": 0
+        },
+        {
+          "key": "fechado_automatico",
+          "type": "boolean",
+          "status": "available",
+          "required": true,
+          "default": true
+        },
+        {
+          "key": "fechado_por",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 64,
+          "default": "SYSTEM_CRON"
+        },
+        {
+          "key": "gerado_em",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_fechamento_data",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["data_referencia"],
+          "orders": ["DESC"]
+        }
+      ]
+    },
+    {
+      "$id": "notificacoes",
+      "name": "Notificações",
+      "enabled": true,
+      "documentSecurity": true,
+      "$permissions": [
+        "read(\"team:staff\")",
+        "read(\"team:admin\")",
+        "read(\"team:caixa\")",
+        "create(\"team:staff\")",
+        "update(\"team:staff\")",
+        "delete(\"team:admin\")"
+      ],
+      "attributes": [
+        {
+          "key": "tipo",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 30,
+          "elements": ["pedir_conta", "desconto_alto", "fechamento_caixa"]
+        },
+        {
+          "key": "titulo",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 100
+        },
+        {
+          "key": "mensagem",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 500
+        },
+        {
+          "key": "destinatario_role",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 20,
+          "elements": ["admin", "caixa", "atendente"]
+        },
+        {
+          "key": "comanda_id",
+          "type": "string",
+          "status": "available",
+          "required": false,
+          "size": 64
+        },
+        {
+          "key": "lida",
+          "type": "boolean",
+          "status": "available",
+          "required": true,
+          "default": false
+        },
+        {
+          "key": "criada_em",
+          "type": "string",
+          "status": "available",
+          "required": true,
+          "size": 50
+        }
+      ],
+      "indexes": [
+        {
+          "key": "idx_notificacao_role",
+          "type": "key",
+          "status": "available",
+          "attributes": ["destinatario_role"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_notificacao_lida",
+          "type": "key",
+          "status": "available",
+          "attributes": ["lida"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "idx_notificacao_criada_em",
+          "type": "key",
+          "status": "available",
+          "attributes": ["criada_em"],
+          "orders": ["DESC"]
+        }
+      ]
+    }
+  ]
+}

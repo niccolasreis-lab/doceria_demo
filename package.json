@@ -1,0 +1,14 @@
+{
+  "name": "doceria-do-sr-gilmar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de Comandas para Doceria — SaaS com Web Next.js 14, Mobile Expo e Backend Appwrite",
+  "scripts": {
+    "test:backend": "npm --prefix backend test",
+    "test:mobile": "npm --prefix mobile test",
+    "test:web": "npm --prefix web test",
+    "build:web": "npm --prefix web run build",
+    "typecheck:mobile": "npm --prefix mobile run tsc --noEmit",
+    "test:all": "npm run test:backend && npm run test:mobile && npm run test:web"
+  }
+}

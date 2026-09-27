@@ -1,0 +1,11 @@
+{
+  "name": "function-fechar-comanda",
+  "version": "1.0.0",
+  "description": "Appwrite Function para fechar comanda, validar pagamento, liberar mesa e rejeitar fechamento sem itens",
+  "main": "src/main.ts",
+  "type": "module",
+  "dependencies": {
+    "node-appwrite": "^14.1.0",
+    "zod": "^3.24.2"
+  }
+}

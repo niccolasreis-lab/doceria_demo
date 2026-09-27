@@ -1,0 +1,65 @@
+{
+  "projectId": "doceria-sr-gilmar",
+  "projectName": "Doceria do Sr. Gilmar",
+  "databases": [
+    {
+      "$id": "doceria_main_db",
+      "name": "Doceria do Sr. Gilmar Database",
+      "enabled": true
+    }
+  ],
+  "functions": [
+    {
+      "$id": "adicionar-item",
+      "name": "Adicionar Item na Comanda",
+      "runtime": "node-20.0",
+      "execute": ["users", "team:staff"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "src/main.ts",
+      "path": "functions/adicionar-item"
+    },
+    {
+      "$id": "solicitar-conta",
+      "name": "Solicitar Conta da Mesa/Comanda",
+      "runtime": "node-20.0",
+      "execute": ["users", "team:staff"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "src/main.ts",
+      "path": "functions/solicitar-conta"
+    },
+    {
+      "$id": "fechar-comanda",
+      "name": "Fechar e Faturar Comanda",
+      "runtime": "node-20.0",
+      "execute": ["team:staff", "team:caixa", "team:admin"],
+      "events": [],
+      "schedule": "",
+      "timeout": 20,
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "src/main.ts",
+      "path": "functions/fechar-comanda"
+    },
+    {
+      "$id": "fechamento-caixa-cron",
+      "name": "Fechamento Diário de Caixa e Expiração Cron",
+      "runtime": "node-20.0",
+      "execute": ["team:admin"],
+      "events": [],
+      "schedule": "0 23 * * *",
+      "timeout": 60,
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "src/main.ts",
+      "path": "functions/fechamento-caixa-cron"
+    }
+  ]
+}

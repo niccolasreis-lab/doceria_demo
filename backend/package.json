@@ -1,0 +1,33 @@
+{
+  "name": "doceria-sr-gilmar-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend Appwrite para a Doceria do Sr. Gilmar - Schemas, Seeds e Functions",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "migrate": "tsx src/migrations/migrate.ts",
+    "seed": "tsx src/seeds/seed.ts",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "appwrite",
+    "doceria",
+    "backend",
+    "typescript"
+  ],
+  "author": "Maestri Backend Team",
+  "license": "ISC",
+  "dependencies": {
+    "node-appwrite": "^14.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}
